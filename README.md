@@ -1,2 +1,2 @@
-# caculator
+# calculator
 Calculator for basic arithmetic.
