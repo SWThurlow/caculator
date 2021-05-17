@@ -1,0 +1,19 @@
+.calculator {
+    width: 300px;
+    background-color: rgb(255, 174, 0);
+    padding: 5px;
+}
+
+.display {
+    padding: 5px;
+    font-size: 48px;
+    line-height: 60px;
+    height: 60px;
+    background-color: rgb(178, 185, 183);
+}
+
+.inputs button {
+    width: calc((300px -10) / 5);
+    height: calc((300px -10) / 5);
+    margin: 2px;
+}
