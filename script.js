@@ -8,6 +8,7 @@ let num1 = '';
 let num2 = '';
 let operator = '';
 let answer = '';
+let decimal = true;
 
 /*Let's do the math!*/
 function add(a, b) {
@@ -35,25 +36,35 @@ function divide(a, b) {
 
 /*Calculating the answer.*/
 function calculate(equals) {
+    if(num2 === (''||'.') || operator === ''
+    || num1 === '.') return;
+    
+    num1 = parseFloat(num1);
+    num2 = parseFloat(num2);
+    
     switch(operator){
         case '+':
-            add(Number(num1), Number(num2));
+            add(num1, num2);
             break;
         case '-':
-            subtract(Number(num1), Number(num2));
+            subtract(num1, num2);
             break;
         case '*':
-            multiply(Number(num1), Number(num2));
+            multiply(num1, num2);
             break;
         case '/':
-            divide(Number(num1), Number(num2));
+            divide(num1, num2);
             break;
     }
+
     //Round answer.
     answer = (Math.round(answer * 10)) / 10;
+
     if(equals === true && num2 !== '0'){
         display.textContent = display.textContent + '=' + answer;
     }
+
+    decimal = true;
 }
 
 /*Functions for when inputs are clicked*/
@@ -91,7 +102,7 @@ function click(target) {
             numInput(target.textContent)
             break;
         case '.':
-            numInput(target.textContent)
+            decimalPoint(target.textContent)
             break;
         case '+':
             operatorInput(target.textContent)
@@ -128,6 +139,19 @@ function numInput(inputString){
     }
 }
 
+//If the input is a decimal point.
+function decimalPoint(inputString){
+    if(decimal && operator === '') {
+        num1 = num1 + inputString;
+        decimal = false;
+        display.textContent = display.textContent + inputString;
+    } else if(decimal && operator !== '') {
+        num2 = num2 + inputString;
+        decimal = false;
+        display.textContent = display.textContent + inputString;
+    } 
+}
+
 //If the input is an operator.
 function operatorInput(inputString){
     if (operator !== '' && num2 === '' || num1 === '') {
@@ -138,8 +162,10 @@ function operatorInput(inputString){
         num1 = answer;
         answer = '';
         num2 = '';
+        decimal = true;
         operator = inputString;
     } else {
+        decimal = true;
         operator = inputString;
         display.textContent = display.textContent + inputString;
     }
@@ -153,6 +179,7 @@ function clear() {
     num2 = '';
     operator = '';
     answer = '';
+    decimal = true;
 }
 
 
