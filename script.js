@@ -34,9 +34,13 @@ function divide(a, b) {
     }
 }
 
+function toThePowerOf(a, b) {
+    answer = a**b;
+}
+
 /*Calculating the answer.*/
 function calculate(equals) {
-    if(num2 === ('.'||'') || num1 === '.') return;
+    if(num2 === '.'|| num2 === '' || num1 === '.') return;
     
     num1 = parseFloat(num1);
     num2 = parseFloat(num2);
@@ -53,6 +57,9 @@ function calculate(equals) {
             break;
         case '/':
             divide(num1, num2);
+            break;
+        case '^':
+            toThePowerOf(num1, num2);
             break;
     }
 
@@ -114,12 +121,24 @@ function click(target) {
         case '/':
             operatorInput(target)
             break;
+        case 'x^y':
+            operatorInput('^')
+            break;
         case '=':
             calculate(true);
             break;
         case 'Clear':
             clear();
-            break;            
+            break;
+        case 'Delete':
+            backspace();
+            break;
+        case 'Backspace':
+            backspace();
+            break;      
+        case '+/-':
+            negative();
+            break;
     }
 }
 
@@ -180,10 +199,56 @@ function clear() {
     decimal = true;
 }
 
+//Deleting a character.
+function backspace() {
+    let split;
+    if(operator === '') {
+        split = num1.split('');
+        split.splice(split.length -1, 1);
+        num1 = split.join('');
+        display.textContent = num1;
+    } else if(operator !== '' && num2 === ''){
+        operator = '';
+        display.textContent = num1;
+    } else if (operator !== '' && num2 !== ''){
+        split = num2.split('');
+        split.splice(split.length -1, 1);
+        num2 = split.join('');
+        display.textContent = num1 + operator + num2;
+    }
+}
+
+//Change a number to be a negative.
+function negative(){
+    let float;
+    if(num2 === ''){
+       float = parseFloat(num1);
+       if(float < 0) {
+            num1 = Math.abs(float);
+            toString(num1);
+            display.textContent = num1 + operator + num2;
+       } else {
+            num1 = -Math.abs(float);
+            toString(num1);
+            display.textContent = num1 + operator + num2;
+       }
+    } else {
+        float = parseFloat(num2);
+       if(float < 0) {
+            num2 = Math.abs(float);
+            toString(num1);
+            display.textContent = num1 + operator + num2;
+       } else {
+            num2 = -Math.abs(float);
+            toString(num2);
+            display.textContent = num1 + operator + num2;
+       }
+    }
+}
 
 /*Event listener for inputs.*/
 inputs.addEventListener('click', (e) => {
-    if(target === inputs) return;
+    if(e.target === inputs) return;
     click(e.target.textContent);
 });
 document.addEventListener('keydown', (e) => click(e.key));
