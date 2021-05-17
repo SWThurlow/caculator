@@ -36,8 +36,7 @@ function divide(a, b) {
 
 /*Calculating the answer.*/
 function calculate(equals) {
-    if(num2 === (''||'.') || operator === ''
-    || num1 === '.') return;
+    if(num2 === ('.'||'') || num1 === '.') return;
     
     num1 = parseFloat(num1);
     num2 = parseFloat(num2);
@@ -67,54 +66,53 @@ function calculate(equals) {
     decimal = true;
 }
 
-/*Functions for when inputs are clicked*/
+/*Functions for when inputs are clicked or pressed*/
 function click(target) {
-    if(target === inputs) return;
-    switch(target.textContent){
+    switch(target){
         case '1':
-            numInput(target.textContent)
+            numInput(target)
             break;
         case '2':
-            numInput(target.textContent)
+            numInput(target)
             break;
         case '3':
-            numInput(target.textContent)
+            numInput(target)
             break;
         case '4':
-            numInput(target.textContent)
+            numInput(target)
             break;
         case '5':
-            numInput(target.textContent)
+            numInput(target)
             break;
         case '6':
-            numInput(target.textContent)
+            numInput(target)
             break;            
         case '7':
-            numInput(target.textContent)
+            numInput(target)
             break;
         case '8':
-            numInput(target.textContent)
+            numInput(target)
             break;
         case '9':
-            numInput(target.textContent)
+            numInput(target)
             break;
         case '0':
-            numInput(target.textContent)
+            numInput(target)
             break;
         case '.':
-            decimalPoint(target.textContent)
+            decimalPoint(target)
             break;
         case '+':
-            operatorInput(target.textContent)
+            operatorInput(target)
             break;
         case '-':
-            operatorInput(target.textContent)
+            operatorInput(target)
             break;            
         case '*':
-            operatorInput(target.textContent)
+            operatorInput(target)
             break;
         case '/':
-            operatorInput(target.textContent)
+            operatorInput(target)
             break;
         case '=':
             calculate(true);
@@ -184,4 +182,8 @@ function clear() {
 
 
 /*Event listener for inputs.*/
-inputs.addEventListener('click', (e) => click(e.target));
+inputs.addEventListener('click', (e) => {
+    if(target === inputs) return;
+    click(e.target.textContent);
+});
+document.addEventListener('keydown', (e) => click(e.key));
