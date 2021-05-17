@@ -1,11 +1,13 @@
 /*Retrieving html elements.*/
 const display = document.querySelector('.display');
+const error = document.querySelector('.error');
 const inputs = document.querySelector('.inputs');
 
 /*Variables for numbers and operators.*/
 let num1 = '';
 let num2 = '';
 let operator = '';
+let answer = '';
 
 /*Let's do the math!*/
 function add(a, b) {
@@ -21,7 +23,14 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    answer = a / b;
+    if(b === 0){
+        error.textContent = 'YOU KNOW THAT WONT WORK.'
+        display.textContent = '';
+        answer = '';
+        return
+    } else {
+        answer = a / b; 
+    }
 }
 
 /*Calculating the answer.*/
@@ -40,7 +49,9 @@ function calculate(equals) {
             divide(Number(num1), Number(num2));
             break;
     }
-    if(equals === true){
+    //Round answer.
+    answer = (Math.round(answer * 10)) / 10;
+    if(equals === true && num2 !== '0'){
         display.textContent = display.textContent + '=' + answer;
     }
 }
@@ -105,11 +116,15 @@ function click(target) {
 
 //If the input is a number.
 function numInput(inputString){
-    display.textContent = display.textContent + inputString;
-    if(operator === ''){
-        num1 = num1 + inputString;
+    if(answer !== ''){
+        return;
     } else {
-        num2 = num2 + inputString;
+        display.textContent = display.textContent + inputString;
+        if(operator === ''){
+            num1 = num1 + inputString;
+        } else {
+            num2 = num2 + inputString;
+        }
     }
 }
 
@@ -119,10 +134,11 @@ function operatorInput(inputString){
         return;
     } else if(operator !== '' && num2 !== '') {
         calculate(false);
+        display.textContent = answer + inputString;
         num1 = answer;
+        answer = '';
         num2 = '';
         operator = inputString;
-        display.textContent = display.textContent + inputString;
     } else {
         operator = inputString;
         display.textContent = display.textContent + inputString;
@@ -136,7 +152,7 @@ function clear() {
     num1 = '';
     num2 = '';
     operator = '';
-    answer;
+    answer = '';
 }
 
 
