@@ -127,10 +127,10 @@ function click(target) {
         case '=':
             calculate(true);
             break;
-        case 'Clear':
+        case 'ac':
             clear();
             break;
-        case 'Delete':
+        case 'c':
             backspace();
             break;
         case 'Backspace':
