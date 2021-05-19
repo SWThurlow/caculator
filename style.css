@@ -27,6 +27,7 @@ h1{
     height: 60px;
     background-color: rgb(58, 193, 202);
     color: rgb(27, 27, 27);
+    overflow: hidden;
 }
 
 .inputs{

@@ -9,6 +9,16 @@ let num2 = '';
 let operator = '';
 let answer = '';
 let decimal = true;
+let displayText = '';
+
+/*To place results on the display and show an error if too long for the display.*/
+function displayAnswer(){
+    if(displayText.length > 12){
+        error.textContent = `My screen's not that big.`
+    }
+    console.log(num1, num2, operator, answer, decimal)
+    display.textContent = displayText;
+}
 
 /*Let's do the math!*/
 function add(a, b) {
@@ -62,15 +72,24 @@ function calculate(equals) {
             toThePowerOf(num1, num2);
             break;
     }
-
     //Round answer.
     answer = (Math.round(answer * 10)) / 10;
 
-    if(equals === true && num2 !== '0'){
-        display.textContent = display.textContent + '=' + answer;
+    if(Number.isInteger(answer)){
+        decimal = true;
+    } else {
+        decimal = false;
     }
 
-    decimal = true;
+    if(equals === true && num2 !== '0'){
+        num1 = answer;
+        answer = '';
+        num2 = '';
+        operator = '';
+        displayText = num1;
+    }
+    
+    displayAnswer();
 }
 
 /*Functions for when inputs are clicked or pressed*/
@@ -147,12 +166,13 @@ function numInput(inputString){
     if(answer !== ''){
         return;
     } else {
-        display.textContent = display.textContent + inputString;
         if(operator === ''){
             num1 = num1 + inputString;
         } else {
             num2 = num2 + inputString;
         }
+        displayText = display.textContent + inputString;
+        displayAnswer();
     }
 }
 
@@ -161,12 +181,14 @@ function decimalPoint(inputString){
     if(decimal && operator === '') {
         num1 = num1 + inputString;
         decimal = false;
-        display.textContent = display.textContent + inputString;
+        displayText = display.textContent + inputString;
+        displayAnswer();
     } else if(decimal && operator !== '') {
         num2 = num2 + inputString;
         decimal = false;
-        display.textContent = display.textContent + inputString;
-    } 
+        displayText = display.textContent + inputString;
+        displayAnswer();
+    }
 }
 
 //If the input is an operator.
@@ -175,7 +197,8 @@ function operatorInput(inputString){
         return;
     } else if(operator !== '' && num2 !== '') {
         calculate(false);
-        display.textContent = answer + inputString;
+        displayText = answer + inputString;
+        displayAnswer();
         num1 = answer;
         answer = '';
         num2 = '';
@@ -184,7 +207,8 @@ function operatorInput(inputString){
     } else {
         decimal = true;
         operator = inputString;
-        display.textContent = display.textContent + inputString;
+        displayText = display.textContent + inputString;
+        displayAnswer();
     }
 }
 
@@ -206,15 +230,17 @@ function backspace() {
         split = num1.split('');
         split.splice(split.length -1, 1);
         num1 = split.join('');
-        display.textContent = num1;
+        displayText = num1;
+        displayAnswer();
     } else if(operator !== '' && num2 === ''){
         operator = '';
-        display.textContent = num1;
+        displayText = num1;
     } else if (operator !== '' && num2 !== ''){
         split = num2.split('');
         split.splice(split.length -1, 1);
         num2 = split.join('');
-        display.textContent = num1 + operator + num2;
+        ddisplayText = num1 + operator + num2;
+        displayAnswer();
     }
 }
 
@@ -226,22 +252,26 @@ function negative(){
        if(float < 0) {
             num1 = Math.abs(float);
             toString(num1);
-            display.textContent = num1 + operator + num2;
+            displayText = num1 + operator + num2;
+            displayAnswer();
        } else {
             num1 = -Math.abs(float);
             toString(num1);
-            display.textContent = num1 + operator + num2;
+            displayText = num1 + operator + num2;
+            displayAnswer();
        }
     } else {
         float = parseFloat(num2);
        if(float < 0) {
             num2 = Math.abs(float);
             toString(num1);
-            display.textContent = num1 + operator + num2;
+            displayText = num1 + operator + num2;
+            displayAnswer();
        } else {
             num2 = -Math.abs(float);
             toString(num2);
-            display.textContent = num1 + operator + num2;
+            displayText = num1 + operator + num2;
+            displayAnswer();
        }
     }
 }
