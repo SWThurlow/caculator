@@ -18,6 +18,7 @@ h1{
 .error {
     height: 20px;
     color: #fff;
+    text-align: center;
 }
 
 .display {

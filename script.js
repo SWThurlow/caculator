@@ -13,11 +13,11 @@ let displayText = '';
 
 /*To place results on the display and show an error if too long for the display.*/
 function displayAnswer(){
-    if(displayText.length > 12){
-        error.textContent = `My screen's not that big.`
-    }
-    console.log(num1, num2, operator, answer, decimal)
     display.textContent = displayText;
+
+    if(displayText.length > 12){
+        error.textContent = `My sreen's not that big!`
+    }
 }
 
 /*Let's do the math!*/
@@ -35,9 +35,8 @@ function multiply(a, b) {
 
 function divide(a, b) {
     if(b === 0){
-        error.textContent = 'YOU KNOW THAT WONT WORK.'
-        display.textContent = '';
-        answer = '';
+        displayAnswer()
+        error.textContent = 'YOU KNOW THAT WONT WORK.';
         return
     } else {
         answer = a / b; 
@@ -82,7 +81,7 @@ function calculate(equals) {
     }
 
     if(equals === true && num2 !== '0'){
-        num1 = answer;
+        num1 = `${answer}`;
         answer = '';
         num2 = '';
         operator = '';
@@ -144,7 +143,7 @@ function click(target) {
             operatorInput('^')
             break;
         case '=':
-            calculate(true);
+            calculate();
             break;
         case 'ac':
             clear();
@@ -163,6 +162,7 @@ function click(target) {
 
 //If the input is a number.
 function numInput(inputString){
+    error.textContent = '';
     if(answer !== ''){
         return;
     } else {
@@ -178,6 +178,7 @@ function numInput(inputString){
 
 //If the input is a decimal point.
 function decimalPoint(inputString){
+    error.textContent = '';
     if(decimal && operator === '') {
         num1 = num1 + inputString;
         decimal = false;
@@ -193,6 +194,7 @@ function decimalPoint(inputString){
 
 //If the input is an operator.
 function operatorInput(inputString){
+    error.textContent = '';
     if (operator !== '' && num2 === '' || num1 === '') {
         return;
     } else if(operator !== '' && num2 !== '') {
@@ -215,6 +217,7 @@ function operatorInput(inputString){
 //Clearing the display and resetting values.
 function clear() {
     display.textContent = '';
+    error.textContent = '';
 
     num1 = '';
     num2 = '';
@@ -242,10 +245,12 @@ function backspace() {
         ddisplayText = num1 + operator + num2;
         displayAnswer();
     }
+    error.textContent = '';
 }
 
 //Change a number to be a negative.
 function negative(){
+    error.textContent = '';
     let float;
     if(num2 === ''){
        float = parseFloat(num1);
